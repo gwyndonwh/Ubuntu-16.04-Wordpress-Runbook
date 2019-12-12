@@ -94,22 +94,32 @@ Make sure your wordpress.conf looks something like this
 
 	</VirtualHost>
 
+Save and exit
 
+	→ ctrl + O
+	→ ENTER
+	→ ctrl + X
+	
+	
 
 Step 6: Enable rewrite and wordpress.conf
 
 	→ sudo a2ensite wordpress.conf
 	→ sudo a2dissite 000-default.conf
-→ sudo a2enmod rewrite
+	→ sudo a2enmod rewrite
 	→ sudo systemctl restart apache2
 
 
 Step 7: Download and extract Wordpress into your root
 
 Navigate to your root directory
-     Eg	→ cd /var/www/html
+
+     	→ cd /var/www/html
 	→ sudo curl -O https://wordpress.org/latest.tar.gz 
 	→ sudo tar xzvf latest.tar.gz
+
+
+
 
 Step 8: Configure Wordpress
 
@@ -120,50 +130,54 @@ Step 8: Configure Wordpress
 Your MYSQL section should look something like this
 
 	/** The name of the database for WordPress */
-define( 'DB_NAME', 'wordpress' );
+	define( 'DB_NAME', 'wordpress' );
 
-/** MySQL database username */
-define( 'DB_USER', 'wordpressuser' );
+	/** MySQL database username */
+	define( 'DB_USER', 'wordpressuser' );
 
-/** MySQL database password */
-define( 'DB_PASSWORD', 'password' );
-	
-/** MySQL hostname */
-define( 'DB_HOST', 'localhost' );
+	/** MySQL database password */
+	define( 'DB_PASSWORD', 'password' );
 
-/** Database Charset to use in creating database tables. */
-define( 'DB_CHARSET', 'utf8' );
+	/** MySQL hostname */
+	define( 'DB_HOST', 'localhost' );
 
-/** The Database Collate type. Don't change this if in doubt. */
-define( 'DB_COLLATE', '' );
+	/** Database Charset to use in creating database tables. */
+	define( 'DB_CHARSET', 'utf8' );
 
-Save 	→ ctrl + O
-→ ENTER
-Exit	→ ctrl + X
+	/** The Database Collate type. Don't change this if in doubt. */
+	define( 'DB_COLLATE', '' );
+
+
 
 Step 9: Update permissions
 
 	→ sudo chown -R www-data:www-data /var/www/html/wordpress
-→ sudo find /var/www/html/wordpress/ -type d -exec chmod 750 {} \;
-→ sudo find /var/www/html/wordpress/ -type f -exec chmod 640 {} \;
+	→ sudo find /var/www/html/wordpress/ -type d -exec chmod 750 {} \;
+	→ sudo find /var/www/html/wordpress/ -type f -exec chmod 640 {} \;
+
+
 
 Step 10: Generate and input secret key
 	
 	→ curl -s https://api.wordpress.org/secret-key/1.1/salt/
+	
 Copy the output
+
 	→ sudo nano /var/www/html/wordpress/wp-config.php
 
 Replace the following with your copied key
 
-define('AUTH_KEY',         'put your unique phrase here');
-define('SECURE_AUTH_KEY',  'put your unique phrase here');
-define('LOGGED_IN_KEY',    'put your unique phrase here');
-define('NONCE_KEY',        'put your unique phrase here');
-define('AUTH_SALT',        'put your unique phrase here');
-define('SECURE_AUTH_SALT', 'put your unique phrase here');
-define('LOGGED_IN_SALT',   'put your unique phrase here');
-define('NONCE_SALT',       'put your unique phrase here');
+	define('AUTH_KEY',         'put your unique phrase here');
+	define('SECURE_AUTH_KEY',  'put your unique phrase here');
+	define('LOGGED_IN_KEY',    'put your unique phrase here');
+	define('NONCE_KEY',        'put your unique phrase here');
+	define('AUTH_SALT',        'put your unique phrase here');
+	define('SECURE_AUTH_SALT', 'put your unique phrase here');
+	define('LOGGED_IN_SALT',   'put your unique phrase here');
+	define('NONCE_SALT',       'put your unique phrase here');
 
-Save 	→ ctrl + O
-→ ENTER
-Exit	→ ctrl + X
+Save and exit
+
+	→ ctrl + O
+	→ ENTER
+	→ ctrl + X
