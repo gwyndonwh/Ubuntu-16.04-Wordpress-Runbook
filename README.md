@@ -5,34 +5,42 @@ Step 1: Install apache2
 	→ sudo apt-get install apache2
 
 
+
+
 Step 2: Install mysql server
 
 	→ sudo apt-get install mysql-server
   
 Set the root passwort to something you’ll remember
 
-  → sudo mysql_secure_installation
-  Use existing password? 		ENTER
-  Remove anonymous users? 	Y
-  Disallow root login remotely? 	Y
-  Remove test database? 		Y
-  Reload privileges?			Y
+  	→ sudo mysql_secure_installation
+	
+  	Use existing password? 		ENTER
+  	Remove anonymous users? 	Y
+  	Disallow root login remotely? 	Y
+  	Remove test database? 		Y
+  	Reload privileges?		Y
 
 Create wordpress database
+	
 	→ sudo mysql -u root -p
+	
 Enter the password you created
+
 	→ CREATE DATABASE wordpress;
 	→ GRANT ALL ON wordpress.* TO 'wordpressuser'@'localhost' IDENTIFIED BY 'password' WITH GRANT OPTION;
 	→ FLUSH PRIVILEGES;
 	→ EXIT
 
 
+
 Step 3: Install PHP stack
 
 	→ sudo apt-get install software-properties-common
-→ sudo add-apt-repository ppa:ondrej/php
+	→ sudo add-apt-repository ppa:ondrej/php
 	→ sudo apt update
-→ sudo apt install php7.2 libapache2-mod-php7.2 php7.2-common php7.2-mbstring php7.2-xmlrpc php7.2-soap php7.2-gd php7.2-xml php7.2-intl php7.2-mysql php7.2-cli php7.2-zip php7.2-curl
+	→ sudo apt install php7.2 libapache2-mod-php7.2 php7.2-common php7.2-mbstring php7.2-xmlrpc php7.2-soap php7.2-gd php7.2-xml php7.2-intl php7.2-mysql php7.2-cli php7.2-zip php7.2-curl
+
 
 
 Step 4: Configure php
@@ -40,45 +48,52 @@ Step 4: Configure php
 	→ sudo nano /etc/php/7.2/apache2/php.ini
 	
 Add the following to the beginning of php.ini under the [PHP] heading
+
 	file_uploads = On
-allow_url_fopen = On
-memory_limit = 256M
-upload_max_filesize = 100M
-max_execution_time = 360
-date.timezone = America/Chicago
-Save 	→ ctrl + O
-→ ENTER
-Exit	→ ctrl + X
+	allow_url_fopen = On
+	memory_limit = 256M
+	upload_max_filesize = 100M
+	max_execution_time = 360
+	date.timezone = America/Chicago
+	
+Save and exit
+	
+	→ ctrl + O
+	→ ENTER
+	→ ctrl + X
 
 Restart apache
+
 	→ sudo systemctl restart apache2
 
 
-Step 5: Create wordpress.conf file
+
+Step 5: Create wordpress.conf file 
  
 	→ cd /etc/apache2/sites-available/
 	→ sudo cp 000-default.conf wordpress.conf 
 	→ sudo nano wordpress.conf
 
-Make sure your wordpress.conf looks something like this v v v
+Make sure your wordpress.conf looks something like this
 
-<VirtualHost *:80>
+	<VirtualHost *:80>
 
-        ServerAdmin admin@example.com
-        DocumentRoot /var/www/html/wordpress/
-        ServerName example.com
-        ServerName www.example.com
+		ServerAdmin admin@example.com
+		DocumentRoot /var/www/html/wordpress/
+		ServerName example.com
+		ServerName www.example.com
 
-        <Directory /var/www/html/wordpress/>
-                Options +FollowSymlinks
-                AllowOverride All
-                Require all granted
-        </Directory>
+		<Directory /var/www/html/wordpress/>
+			Options +FollowSymlinks
+			AllowOverride All
+			Require all granted
+		</Directory>
 
-        ErrorLog ${APACHE_LOG_DIR}/error.log
-        CustomLog ${APACHE_LOG_DIR}/access.log combined
+		ErrorLog ${APACHE_LOG_DIR}/error.log
+		CustomLog ${APACHE_LOG_DIR}/access.log combined
 
-</VirtualHost>
+	</VirtualHost>
+
 
 
 Step 6: Enable rewrite and wordpress.conf
